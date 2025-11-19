@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax Example</title>
+</head>
+<body>
+    <button id="loadMssg">Click to load a message</button><br><br>
+    <p id="result"></p>
+
+
+
+    <script>
+        document.getElementById("loadMssg").addEventListener("click",loadData)
+        function loadData(){
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState === 4 && xhr.status === 200){
+                    document.getElementById("result").innerHTML= xhr.responseText;
+                }
+            }
+            xhr.open("GET", "message.php",true);
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

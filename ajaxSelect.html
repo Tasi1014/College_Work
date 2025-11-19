@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Country & City</title>
+</head>
+<body>
+    <form>
+        <label for="country">Country:</label>
+        <select name="country" id="country">
+            <option value="">Select a country</option>
+            <option value="Nepal">Nepal</option>
+            <option value="India">India</option>
+            <option value="USA">USA</option>
+        </select>
+
+        <br><br>
+
+        <label for="City">City: </label>
+        <select name="City" id="City">
+            <option value="">Select City</option>
+        </select>
+    </form>
+
+    <script>
+        document.getElementById("country").addEventListener("change", loadCities);
+
+        function loadCities() {
+            const country = document.getElementById("country").value;
+            const citySelect = document.getElementById("City");
+
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    citySelect.innerHTML = "<option value=''>Select City</option>";
+                    console.log(JSON.parse(xhr.responseText))
+                    let cities = JSON.parse(xhr.responseText);
+                    console.log(cities);
+                    cities.forEach(city => {
+                    
+                    let option = document.createElement("option");
+                    option.value = city;
+                    option.text = city;
+                    citySelect.appendChild(option);
+        })
+                }
+            };
+            
+            xhr.open("GET", "ajax_select_data.php?country=" + country, true);
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
