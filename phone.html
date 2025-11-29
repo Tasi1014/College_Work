@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Phone: <input type="text" id="phone">
+<span id="result"></span>
+
+<script>
+document.getElementById("phone").addEventListener("keyup", function () {
+    let phone = this.value;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "check_phone.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    xhr.onload = function () {
+        document.getElementById("result").innerHTML = this.responseText;
+    };
+
+    xhr.send("phone=" + encodeURIComponent(phone));
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script>
+        const n = Number(prompt("Enter the number of elements you want in the array:"));
+const arr = [];
+
+for(let i = 0; i<n; i++){
+    arr[i] = Number(prompt("Enter the elements of array: "));
+}
+let sum = 0;
+for(let i = 0; i<arr.length; i++){
+    sum+=arr[i];
+}
+let avg = sum/arr.length;
+console.log("The sum of all the elements of the array is "+sum);
+console.log("The average of all the elements of the array is "+avg);
+
+const largest = (arr)=>{
+    let max = arr[0];
+    for(let i = 0; i<arr.length; i++){
+        if(max < arr[i]){
+            max = arr[i];
+        }
+    }
+    return max;
+}
+
+
+console.log("The largest element of the array is: "+largest(arr));
+    </script>
+</body>
+</html>
