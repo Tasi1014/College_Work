@@ -3,7 +3,7 @@ $conn = mysqli_connect("localhost", "root", "", "scripting_2025");
 
 $phone = $_POST['phone'];
 
-$query = "SELECT * FROM student WHERE phone = '$phone'";
+$query = "SELECT * FROM students WHERE phone = '$phone'";
 $result = mysqli_query($conn, $query);
 
 if (mysqli_num_rows($result) > 0) {
