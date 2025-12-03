@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BCA Entrance Form</title>
+    <style>
+      .error {
+        color: red;
+        font-size: 14px;
+      }
+      .success {
+        color: green;
+        font-size: 16px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="bcaForm">
+      <label>Name:</label>
+      <input type="text" id="name" name="name" />
+      <p class="error" id="err1"></p>
+
+      <label>Email:</label>
+      <input type="text" id="email" name="email" />
+      <p class="error" id="err2"></p>
+
+      <label>Mobile:</label>
+      <input type="text" id="phone" name="phone" />
+      <p class="error" id="err3"></p>
+
+      <label>Password:</label>
+      <input type="password" id="password" name="password" />
+      <p class="error" id="err4"></p>
+
+      <label>Gender:</label><br />
+      <input type="radio" id="male" name="gender" value="Male" /> Male
+      <input type="radio" id="female" name="gender" value="Female" /> Female
+      <p class="error" id="err5"></p>
+
+      <label>Intermediate Faculty:</label>
+      <input type="text" id="faculty" name="faculty" />
+      <p class="error" id="err6"></p>
+
+      <label>Date of Birth (YYYY/MM/DD):</label>
+      <input type="dob" id="dob" name="dob" />
+      <p class="error" id="err7"></p>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <p id="serverMsg"></p>
+
+    <script>
+      document
+        .getElementById("bcaForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          document
+            .querySelectorAll(".error")
+            .forEach((el) => (el.innerText = ""));
+
+          let name = document.getElementById("name").value.trim();
+          let email = document.getElementById("email").value.trim();
+          let phone = document.getElementById("phone").value.trim();
+          let password = document.getElementById("password").value.trim();
+          let faculty = document.getElementById("faculty").value.trim();
+          let dob = document.getElementById("dob").value.trim();
+          const male = document.getElementById("male").checked;
+          const female = document.getElementById("female").checked;
+          let gender = "";
+          if(male){
+            gender = "Male";
+          } 
+          else if(female){
+            gender = "Female";
+          }
+
+          let isValid = true;
+
+          if (name === "") {
+            document.getElementById("err1").innerText = "Required";
+            isValid = false;
+          }
+          if (email === "") {
+            document.getElementById("err2").innerText = "Required";
+            isValid = false;
+          }
+          if (phone === "") {
+            document.getElementById("err3").innerText = "Required";
+            isValid = false;
+          }
+          if (password === "") {
+            document.getElementById("err4").innerText = "Required";
+            isValid = false;
+          }
+          if (!male && !female) {
+            document.getElementById("err5").innerText = "Select gender";
+            isValid = false;
+          }
+          if (faculty === "") {
+            document.getElementById("err6").innerText = "Required";
+            isValid = false;
+          }
+          if (dob === "") {
+            document.getElementById("err7").innerText = "Required";
+            isValid = false;
+          }
+
+          // Format validation
+          if (email !== "" && !/^\S+@\S+\.\S+$/.test(email)) {
+            document.getElementById("err2").innerText = "Invalid email format";
+            isValid = false;
+          }
+          if (phone !== "" && !/^\d{10}$/.test(phone)) {
+            document.getElementById("err3").innerText =
+              "Phone must be 10 digits";
+            isValid = false;
+          }
+          if (dob !== "" && !/^\d{4}\/\d{2}\/\d{2}$/.test(dob)) {
+            document.getElementById("err7").innerText =
+              "Invalid date format (YYYY/MM/DD)";
+            isValid = false;
+          }
+
+          if(!isValid){
+            return;
+          }
+
+          // Add gender to FormData
+          const formData = new FormData(this);
+          formData.set("gender", gender); // override gender field with selected value
+
+          fetch("insert.php", {
+            method: "POST",
+            body: formData,
+          })
+            .then((res) => res.text())
+            .then((data) => {
+              document.getElementById("serverMsg").innerText = data;
+              document.getElementById("serverMsg").className = "success";
+            })
+            .catch((err) => console.log(err));
+        });
+    </script>
+  </body>
+</html>
