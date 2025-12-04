@@ -44,7 +44,7 @@
       <p class="error" id="err6"></p>
 
       <label>Date of Birth (YYYY/MM/DD):</label>
-      <input type="dob" id="dob" name="dob" />
+      <input type="text" id="dob" name="dob" />
       <p class="error" id="err7"></p>
 
       <button type="submit">Submit</button>
@@ -58,10 +58,6 @@
         .addEventListener("submit", function (e) {
           e.preventDefault();
 
-          document
-            .querySelectorAll(".error")
-            .forEach((el) => (el.innerText = ""));
-
           let name = document.getElementById("name").value.trim();
           let email = document.getElementById("email").value.trim();
           let phone = document.getElementById("phone").value.trim();
@@ -71,67 +67,84 @@
           const male = document.getElementById("male").checked;
           const female = document.getElementById("female").checked;
           let gender = "";
-          if(male){
+          if (male) {
             gender = "Male";
-          } 
-          else if(female){
+          } else if (female) {
             gender = "Female";
           }
 
           let isValid = true;
 
+          const e1 = document.getElementById("err1");
+          const e2 = document.getElementById("err2");
+          const e3 = document.getElementById("err3");
+          const e4 = document.getElementById("err4");
+          const e5 = document.getElementById("err5");
+          const e6 = document.getElementById("err6");
+          const e7 = document.getElementById("err7");
+
+          document
+            .querySelectorAll(".error")
+            .forEach((err) => (err.innerText = ""));
+
           if (name === "") {
-            document.getElementById("err1").innerText = "Required";
+            e1.innerText = "Required";
+            isValid = false;
+          } else if (!/^[A-Za-z ]{3,30}$/.test(name)) {
+            e1.innerText = "Invalid name format";
             isValid = false;
           }
+
           if (email === "") {
-            document.getElementById("err2").innerText = "Required";
+            e2.innerText = "Required";
+            isValid = false;
+          } else if (!/^[a-zA-Z0-9_.-]+@[a-z]+\.[a-z]{2,3}$/.test(email)) {
+            e2.innerText = "Invalid email format";
             isValid = false;
           }
+
           if (phone === "") {
-            document.getElementById("err3").innerText = "Required";
+            e3.innerText = "Required";
+            isValid = false;
+          } else if (!/^\d{10}$/.test(phone)) {
+            e3.innerText = "Phone must be 10 digits";
             isValid = false;
           }
+
           if (password === "") {
-            document.getElementById("err4").innerText = "Required";
+            e4.innerText = "Required";
+            isValid = false;
+          } else if (
+            !/^(?=.*[A-Z])(?=.*\d)(?=.*[@#$%&!]).{8,20}$/.test(password)
+          ) {
+            e4.innerText =
+              "Password must contain one uppercase, one digit, one special character";
             isValid = false;
           }
+
           if (!male && !female) {
-            document.getElementById("err5").innerText = "Select gender";
+            e5.innerText = "Select gender";
             isValid = false;
           }
+
           if (faculty === "") {
-            document.getElementById("err6").innerText = "Required";
+            e6.innerText = "Required";
             isValid = false;
           }
+
           if (dob === "") {
-            document.getElementById("err7").innerText = "Required";
+            e7.innerText = "Required";
+            isValid = false;
+          } else if (!/^\d{4}\/\d{2}\/\d{2}$/.test(dob)) {
+            e7.innerText = "Invalid date format (YYYY/MM/DD)";
             isValid = false;
           }
 
-          // Format validation
-          if (email !== "" && !/^\S+@\S+\.\S+$/.test(email)) {
-            document.getElementById("err2").innerText = "Invalid email format";
-            isValid = false;
-          }
-          if (phone !== "" && !/^\d{10}$/.test(phone)) {
-            document.getElementById("err3").innerText =
-              "Phone must be 10 digits";
-            isValid = false;
-          }
-          if (dob !== "" && !/^\d{4}\/\d{2}\/\d{2}$/.test(dob)) {
-            document.getElementById("err7").innerText =
-              "Invalid date format (YYYY/MM/DD)";
-            isValid = false;
-          }
-
-          if(!isValid){
+          if (!isValid) {
             return;
           }
 
-          // Add gender to FormData
           const formData = new FormData(this);
-          formData.set("gender", gender); // override gender field with selected value
 
           fetch("insert.php", {
             method: "POST",

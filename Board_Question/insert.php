@@ -7,7 +7,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Use the correct keys from your form (lowercase)
     $name     = $_POST['name'];
     $email    = $_POST['email'];
     $phone    = $_POST['phone'];
@@ -16,16 +15,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $faculty  = $_POST['faculty'];
     $dob      = $_POST['dob'];
 
-    // Insert into database
-    $sql = "INSERT INTO bca (Name, Email, Phone, Password, Gender, Faculty, DOB)
-            VALUES ('$name', '$email', '$phone', '$password', '$gender', '$faculty', '$dob')";
 
-    if ($conn->query($sql)) {
+$stmt = $conn->prepare("
+        INSERT INTO bca (Name, Email, Phone, Password, Gender, Faculty, DOB)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ");
+
+    $stmt->bind_param("sssssss", 
+        $name, 
+        $email, 
+        $phone, 
+        $password, 
+        $gender, 
+        $faculty, 
+        $dob
+    );
+     if ($stmt->execute()) {
         echo "Data inserted successfully!";
     } else {
-        echo "Error: " . $conn->error;
+        echo "Error: " . $stmt->error;
     }
 
+    $stmt->close();
     $conn->close();
 }
 ?>

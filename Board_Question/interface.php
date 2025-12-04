@@ -16,14 +16,12 @@ class Bike implements Vehicle {
     }
 }
 
-function startAnyVehicle(Vehicle $v) {
-    $v->startEngine();
-}
+
 
 $car = new Car();
 $bike = new Bike();
 
-startAnyVehicle($car);
-startAnyVehicle($bike);
+$car->startEngine();
+$bike->startEngine();
 
 ?>
