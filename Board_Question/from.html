@@ -53,9 +53,7 @@
     <p id="serverMsg"></p>
 
     <script>
-      document
-        .getElementById("bcaForm")
-        .addEventListener("submit", function (e) {
+      document.getElementById("bcaForm").addEventListener("submit", function (e) {
           e.preventDefault();
 
           let name = document.getElementById("name").value.trim();
@@ -144,11 +142,11 @@
             return;
           }
 
-          const formData = new FormData(this);
+          
 
           fetch("insert.php", {
             method: "POST",
-            body: formData,
+            body: new FormData(this),
           })
             .then((res) => res.text())
             .then((data) => {
