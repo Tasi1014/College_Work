@@ -6,8 +6,10 @@
     <title>Phone Checker (GET)</title>
 </head>
 <body>
+    <form id="phoneChecker">
     Phone: <input type="text" id="phone">
     <span id="result"></span>
+    </form>
 
 <script>
 document.getElementById("phone").addEventListener("keyup", function () {
@@ -15,7 +17,6 @@ document.getElementById("phone").addEventListener("keyup", function () {
 
     // 1. Create XHR object
     let xhr = new XMLHttpRequest();
-
     // 2. Define onreadystatechange handler
     xhr.onreadystatechange = function() {
         // 3. Process response only when request is DONE and successful

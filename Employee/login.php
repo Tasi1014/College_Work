@@ -80,7 +80,6 @@ mysqli_close($conn);
             <label>Username:</label>
             <input type="text" name="name" value="<?= $name ?>" class="input-form">
             <p class="red"><?= $errors['name'] ?? '' ?></p>
-
             <label>Password:</label>
             <input type="password" name="password" value="<?= $password ?>" class="input-form">
             <p class="red"><?= $errors['password'] ?? '' ?></p>

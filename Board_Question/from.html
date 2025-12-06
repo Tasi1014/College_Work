@@ -143,10 +143,11 @@
           }
 
           
+          
 
           fetch("insert.php", {
             method: "POST",
-            body: new FormData(this),
+            body: new FormData("#bcaForm") ,
           })
             .then((res) => res.text())
             .then((data) => {
