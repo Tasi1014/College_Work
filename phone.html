@@ -12,25 +12,17 @@
     </form>
 
 <script>
-document.getElementById("phone").addEventListener("keyup", function () {
-    let phone = this.value;
+    document.getElementById("phone").addEventListener("keyup", function(){
+        let phone = document.getElementById("phone").value;
 
-    // 1. Create XHR object
-    let xhr = new XMLHttpRequest();
-    // 2. Define onreadystatechange handler
-    xhr.onreadystatechange = function() {
-        // 3. Process response only when request is DONE and successful
-        if(xhr.readyState == 4 && xhr.status == 200) {
-            document.getElementById("result").innerHTML = xhr.responseText;
-        }
-    };
-
-    // 4. Open GET request with data in URL
-    xhr.open("GET", "check_phone_get.php?phone=" + phone, true);
-
-    // 5. Send the request (no data in send for GET)
-    xhr.send();
-});
+        fetch("check_phone.php?phone="+phone, {
+            method : "GET" // we didn't sent any data as we don't need to send any...we have to send only phone number which we can sent in URL through GET 
+        }).then((res)=>res.text())
+        .then((data)=>{
+            document.getElementById("result").innerHTML = data;
+        })
+        .catch((err)=>console.log("ERRRO: ".err));
+    })
 </script>
 
 </body>
