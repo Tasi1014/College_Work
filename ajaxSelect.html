@@ -26,30 +26,22 @@
     <script>
         document.getElementById("country").addEventListener("change", loadCities);
 
-        function loadCities() {
-            const country = document.getElementById("country").value;
-            const citySelect = document.getElementById("City");
+        function loadCities(){
+            let country =  document.getElementById("country").value;
+            let citySelect = document.getElementById("City");
 
-            const xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    citySelect.innerHTML = "<option value=''>Select City</option>";
-                    console.log(JSON.parse(xhr.responseText))
-                    let cities = JSON.parse(xhr.responseText);
-                    console.log(cities);
-                    cities.forEach(city => {
-                    
+            fetch("ajax_select_data.php?country="+country, {
+                method : "GET",
+            }).then((res)=> res.json()) //converts the server response to array
+            .then((data)=>{
+                citySelect.innerHTML = "<option value = ''> Select City</option>";
+                data.forEach(city => {
                     let option = document.createElement("option");
                     option.value = city;
                     option.text = city;
                     citySelect.appendChild(option);
-        })
-        
-                }
-            };
-            
-            xhr.open("GET", "ajax_select_data.php?country=" + country, true);
-            xhr.send();
+                });
+            })
         }
     </script>
 </body>

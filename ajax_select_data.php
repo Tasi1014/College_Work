@@ -11,7 +11,7 @@ if ($country === "" || !isset($countries[$country])) {
     exit; 
 }
 
-echo json_encode($countries[$country])
+echo json_encode($countries[$country]);
 
 
 ?>
