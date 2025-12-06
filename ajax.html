@@ -12,17 +12,17 @@
 
 
     <script>
-        document.getElementById("loadMssg").addEventListener("click",loadData)
-        function loadData(){
-            let xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function(){
-                if(xhr.readyState === 4 && xhr.status === 200){
-                    document.getElementById("result").innerHTML= xhr.responseText;
-                }
-            }
-            xhr.open("GET", "message.php",true);
-            xhr.send();
-        }
+        document.getElementById("loadMssg").addEventListener("click",function(){
+            fetch("message.php"    // if we donot specify the method it's GET by default
+            ).then((res)=>res.text())
+            .then((data)=>{
+                document.getElementById("result").innerHTML = data
+            })
+            .catch((err)=>{
+                console.log("Error Occured ". err);
+            })
+        })
+        
     </script>
 </body>
 </html>
