@@ -8,8 +8,10 @@ class BankAccount {
         return $this->Balance;
     } 
 
-    public function setBalance($balance) {
-        $this->Balance = $balance;
+    public function setBalance($amt) {
+        if($amt > 0){
+            $this->Balance += $amt;
+        }
     }
 }
 
